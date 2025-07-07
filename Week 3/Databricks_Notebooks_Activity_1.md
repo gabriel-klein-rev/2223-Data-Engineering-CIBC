@@ -46,9 +46,9 @@ Learn how to read, explore, and manipulate a Spark DataFrame using the `data_geo
    If you get an error, try casting the columns:
    ```python
    from pyspark.sql.functions import col
-   filtered_df = selected_df
-      .withColumn("2015 median sales price", col("2015 median sales price")
-      .cast("double"))                             
+   filtered_df = selected_df \
+      .withColumn("2015 median sales price", col("2015 median sales price") \
+      .cast("double")) \
       .filter(col("2015 median sales price") > 400)
 
    filtered_df.show()
