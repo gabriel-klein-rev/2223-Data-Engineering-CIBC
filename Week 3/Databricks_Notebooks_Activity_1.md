@@ -16,7 +16,7 @@ Learn how to read, explore, and manipulate a Spark DataFrame using the `data_pri
 
 3. **Load the CSV file as a DataFrame**:
    ```python
-   df = spark.read.option("header", "true").csv("/databricks-datasets/population-vs-price/data_price.csv")
+   df = spark.read.option("header", "true").csv("/databricks-datasets/samples/population-vs-price/data_geo.csv")
    ```
 
 4. **Inspect the schema and preview the data**:
