@@ -49,7 +49,7 @@ Learn how to read, explore, and manipulate a Spark DataFrame using the `data_geo
    filtered_df = selected_df
       .withColumn("2015 median sales price", col("2015 median sales price")
       .cast("double"))                             
-      .filter(col("2015 median sales price") > 400000)
+      .filter(col("2015 median sales price") > 400)
 
    filtered_df.show()
    ```
@@ -79,4 +79,4 @@ Learn how to read, explore, and manipulate a Spark DataFrame using the `data_geo
 ## Additional practice
 
 - Create a column that shows the cities ranked by 2015 median sales price.
-- Create a dataframe that compares each cities' population rank and 2015 medial sales price rank
+- Create a dataframe that compares each cities' population rank and 2015 median sales price rank
