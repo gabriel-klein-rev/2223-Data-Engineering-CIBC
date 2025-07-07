@@ -1,7 +1,7 @@
 # Activity: Working with Spark DataFrames using Databricks Notebooks
 
 ## Objective
-Learn how to read, explore, and manipulate a Spark DataFrame using the `data_price.csv` sample dataset from `/databricks-datasets/population-vs-price/`. This activity will explore loading data, inspecting schemas, filtering, selecting columns, and writing data back to DBFS.
+Learn how to read, explore, and manipulate a Spark DataFrame using the `data_geo.csv` sample dataset from `/databricks-datasets/population-vs-price/`. This activity will explore loading data, inspecting schemas, filtering, selecting columns, and writing data back to DBFS.
 
 ---
 
