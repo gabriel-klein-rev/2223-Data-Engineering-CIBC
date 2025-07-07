@@ -11,7 +11,7 @@ Learn how to read, explore, and manipulate a Spark DataFrame using the `data_pri
 
 2. **List the sample dataset directory** to confirm the file exists:
    ```python
-   %fs ls /databricks-datasets/population-vs-price/
+   %fs ls /databricks-datasets/samples/population-vs-price/
    ```
 
 3. **Load the CSV file as a DataFrame**:
