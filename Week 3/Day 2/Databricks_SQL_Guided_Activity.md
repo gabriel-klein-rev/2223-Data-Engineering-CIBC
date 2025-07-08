@@ -55,12 +55,12 @@ FROM samples.nyctaxi.trips;
 
 ## Part 3: Filtering & Grouping
 
-### Task 3.1: Number of Trips by Passenger Count
+### Task 3.1: Number of Trips by Zip Code
 
 ```sql
-SELECT passenger_count, COUNT(*) AS trip_count
+SELECT pickup_zip, COUNT(*) AS trip_count
 FROM samples.nyctaxi.trips
-GROUP BY passenger_count
+GROUP BY pickup_zip
 ORDER BY trip_count DESC;
 ```
 
