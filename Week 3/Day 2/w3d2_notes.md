@@ -82,7 +82,7 @@ FileStore is a user-accessible storage area in **DBFS** (Databricks File System)
 
 ## Catalogs in Unity Catalog
 
-### 🔍 What is a Catalog?
+### What is a Catalog?
 A **catalog** is the top-level container in the Unity Catalog hierarchy:
 
 ```
