@@ -1,41 +1,11 @@
 # PySpark - Spark SQL
 
 
-## 1. Dataframes
-
-### From file
-	df1 = spark.read.option("multiline", "true").json("file:///{file_path}/people.json")
-
-	df1.show()
-
-	//df2 = spark.read.text("file:///{file_path}/people.txt")
-
-	//df2.show()
-
-	df2 = spark.read.format("csv").option("sep","\t").load("file:///{file_path}/people.csv")
-
-	df3 = spark.read.csv("file:///{file_path}/people.csv")
-
-	df3.show()
-
-	df1.printSchema()
-
-	df1.select("name").show()
-
-	df1.select($"age" +1).show()
-
-### From RDD
-
-	df = sc.parallelize([(4, "blah", 2),(2, "", 3),(56, "foo", 3),(100, None, 5)]).toDF(["A", "B", "C"])
-
-	newDf = df.withColumn("D", when(df.B == None, 0).when(df.B == "", 0).otherwise(1))
-
-
 
 ### Drop duplicates
 
 
-	data = sc.parallelize([("Foo",41,"US",3),
+	data = [("Foo",41,"US",3),
 
 		("Foo",39,"UK",1),
 
@@ -45,14 +15,16 @@
 
 		("Baz",22,"US",6),
 
-		("Baz",36,"US",6)]).toDF(["x","y","z","count"])
+		("Baz",36,"US",6)]
+  
+  data = spark.createDataFrame(data, ["x","y","z","count"])
 
 
 
 	data.dropDuplicates(["x","count"]).show()
 
 
-	data2 = sc.parallelize([(0, "hello"), (1, "world")]).toDF(["id", "text"])
+	data2 = spark.createDataFrame([(0, "hello"), (1, "world")] ,["id", "text"])
 
 	from pyspark.sql.functions import col, udf
 	from pyspark.sql.types import StringType
@@ -62,7 +34,7 @@
 
 	data2.withColumn("upper", upper(col("text"))).show()
 
-	dataFrame = sc.parallelize([("10.023", "75.0125", "00650"),("12.0246", "76.4586", "00650"), ("10.023", "75.0125", "00651")]).toDF(["lat","lng", "zip"])
+	dataFrame = spark.createDataFrame([("10.023", "75.0125", "00650"),("12.0246", "76.4586", "00650"), ("10.023", "75.0125", "00651")], ["lat","lng", "zip"])
 
 	dataFrame.printSchema()
 
@@ -90,7 +62,7 @@
 		"emp_dept_id","gender","salary"]
 	  
 	  
-	empDF = sc.parallelize(emp).toDF(empColumns)
+	empDF = spark.createDataFrame(emp, empColumns)
 
 	empDF.show()
 
@@ -106,7 +78,7 @@
 
 	deptColumns = ["dept_name","dept_id"]
 
-	deptDF = sc.parallelize(dept).toDF(deptColumns)
+	deptDF = spark.createDataFrame(dept, deptColumns)
 
 	deptDF.show()
 
@@ -143,7 +115,7 @@
 
 	]
 
-	df = sc.parallelize(simpleData).toDF(["employee_name","department","state","salary","age","bonus"])
+	df = spark.createDataFrame(simpleData, ["employee_name","department","state","salary","age","bonus"])
 
 	df.show()
 
@@ -181,59 +153,3 @@
 	df.groupBy("department").agg(sum("salary").alias("sum_salary"),avg("salary").alias("avg_salary"),sum("bonus").alias("sum_bonus"),max("bonus").alias("max_bonus")).show()
 
 
-## 2. Using SparkSQL
-
-	df = spark.read.option("multiline", "true").json("{file_path}/people.json")
-
-	df.show()
-
-	df.createOrReplaceTempView("people")
-
-	sqlDF = spark.sql("SELECT * FROM people")
-
-	sqlDF.show()
-
-
-
-
----------------------------------------------------------------------------------------------
-## 3. Generic Load Functions
-
-	empdf1 = spark.read.option("multiline", "true").json("{file_path}/people.json")
-
-	empdf1.write.parquet("{file_path}/employee_101235.parquet")
-
-
-	parquetfiledf = spark.read.parquet("{file_path}/employee_101235.parquet")  
-
-	parquetfiledf.createOrReplaceTempView("parquetFile")
-
-	namedf = spark.sql("SELECT * FROM parquetFile")
-
-	namedf.show()
-
-
-	peopleDF = spark.read.format("json").option("multiline", "true").load("{file_path}/people.json")
-
-	peopleDF.select("name", "age").write.format("parquet").save("{file_path}/namesAndAges.parquet")
-
-
-	peopleDF = spark.read.format("json").option("multiline", "true").format("json").load("{file_path}/people.json")
-
-	peopleDF.write.partitionBy("name").format("parquet").save("{file_path}/nameAndAgesPartitioned.parquet") 
-
-
------------------------------------------------------------------------------------
-## 4. Global Temporary View
-//Temporary views in Spark SQL are session-scoped and will disappear if the session that creates it terminates. If you want to have a temporary view that is shared among all sessions and keep alive until the Spark application terminates, you can create a global temporary view. Global temporary view is tied to a system preserved database global_temp, and we must use the qualified name to refer it, e.g. SELECT * FROM global_temp.view1.
-
-	df.createGlobalTempView("people6")
-
-
-	// Global temporary view is tied to a system preserved database `global_temp`
-
-	spark.sql("SELECT * FROM global_temp.people6").show()
-
-	// Global temporary view is cross-session
-
-	spark.newSession().sql("SELECT * FROM global_temp.people6").show()
