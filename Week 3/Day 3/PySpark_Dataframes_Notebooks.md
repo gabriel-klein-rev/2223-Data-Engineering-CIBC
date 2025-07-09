@@ -17,7 +17,7 @@
 
 		("Baz",36,"US",6)]
   
-  data = spark.createDataFrame(data, ["x","y","z","count"])
+  	data = spark.createDataFrame(data, ["x","y","z","count"])
 
 
 
